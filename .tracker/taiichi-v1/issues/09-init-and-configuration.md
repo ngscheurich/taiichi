@@ -13,3 +13,5 @@ What does configuration look like, per repo and per server?
 - The server's own config: data folder location, socket path, Forgejo URL and token.
 
 From [Forgejo Tracker rules](07-forgejo-tracker-rules.md): the Tracker's per-project fields are its `owner/repo` (defaulting to the Forge's), the ready-label list, the position-label map (defaults `taiichi/plan` through `taiichi/abandoned`, each optional), and on/off switches for the Pickup, Done, and Abandoned comments. The server checks that configured labels exist but never creates them; whether `taiichi init` creates them is decided here.
+
+From [Forgejo Forge](08-forgejo-forge.md): the server's config adds the Forge poll interval, server-wide (default 60 seconds). The token must belong to a dedicated bot account that never reviews, and `taiichi status` shows which Forgejo account Taiichi acts as.

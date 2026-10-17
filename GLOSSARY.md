@@ -37,8 +37,12 @@ _Avoid_: Merged, approved
 The outcome of a Shipment that the reviewer sends back with changes requested, which returns the Job to Build.
 _Avoid_: Rejected, changes requested
 
+**Closed**:
+The outcome of a Shipment withdrawn from review without being Accepted, such as a pull request closed without merging. The Job stays at Ship until a human abandons it or the Shipment is reopened.
+_Avoid_: Abandoned (for the Shipment), declined
+
 **Feedback**:
-The reviewer's list of comments on a Refused Shipment, carried back to Build in its Stage Input.
+The comments left on a Shipment since the last Feedback, gathered when it is Refused and carried back to Build in its Stage Input. Anyone but the factory's own account may contribute.
 _Avoid_: Review comments, change requests
 
 ### Pipeline

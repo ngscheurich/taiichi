@@ -24,6 +24,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [Stage Inputs and Stage Outputs](issues/05-stage-inputs-and-outputs.md): Publish is renamed Ship; submitters write plain Markdown plus three values (body, verdict, Shipment title) and the server writes all front matter; a Stage Input is a per-Attempt bundle of new material and references; Evaluate and Ship see the whole history after Plan.
 - [CLI commands](issues/06-cli-commands.md): flat verbs with one `submit` for every Stage, Jobs numbered per repo and implied inside their worktree, `--pass`/`--fail` for the Verdict, and `$EDITOR` opening with the Stage Input below a scissors line.
 - [Forgejo Tracker rules](issues/07-forgejo-tracker-rules.md): eligible means open, a ready label, and no active Job; Pickup swaps ready labels for configurable position labels and Abandon restores them; branches are `taiichi/<ticket>-j<job>-<slug>`; comments on Pickup, Done, and Abandoned; the Tracker closes the issue on Done.
+- [Forgejo Forge](issues/08-forgejo-forge.md): Ship pushes as the bot with a force-with-lease and replaces the description on rework; Refused is a request for changes since the latest Ship; Closed waits at Ship for a human; Feedback runs from a cursor of Forgejo ids; polling only while a Job waits at Ship.
 
 ## Not yet specified
 
@@ -31,7 +32,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - **A Ticket changing under a running Job.** What happens when its Ticket is edited, closed, or relabelled mid-Job, including someone re-adding a ready label that Pickup removed.
 - **Forgejo being unreachable.** How Pickup, write-back, shipping, and polling behave when the Forge or Tracker can't be reached.
 - **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server. HTTP can push with server-sent events (one-way) or a WebSocket (two-way); whether the CLI's language has a WebSocket client that works over a Unix socket is unchecked.
-- **Commits pushed to a Shipment by someone else.** A reviewer or bot pushes to the Shipment's branch on the Forge, leaving the worktree behind and throwing off the next Build's starting commit.
+- **A Shipment changing under a Job.** While the Job is away from Ship, its Shipment is merged, closed, or pushed to on the Forge. Report only runs at Ship, and the Pipeline reaches Done only from Ship. A push by someone else also leaves the worktree behind and throws off the next Build's starting commit; Ship's force-with-lease refuses to overwrite it (see [Forgejo Forge](issues/08-forgejo-forge.md)).
 
 ## Out of scope
 
