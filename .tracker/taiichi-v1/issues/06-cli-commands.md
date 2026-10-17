@@ -48,3 +48,7 @@ taiichi abandon [job]                 end the Job as Abandoned (asks first; --ye
 Prototype: `docs/prototypes/cli-commands.md` on branch `prototype/cli-commands` (commit `cb2e2b3`). The branch is local only: the push failed because the sandbox has no `ssh`.
 
 No glossary change: no domain terms moved.
+
+## Comments
+
+**From [`taiichi init` and configuration](09-init-and-configuration.md):** `taiichi init` takes `--forge-url` and `--forge-repo` (required when `origin` isn't an HTTP(S) URL), a repeatable `--ready-label`, and `--yes` to skip the offer to create missing labels. Running it again is safe, and it also relinks a moved clone. `taiichi repos` was considered and moved post-v1.

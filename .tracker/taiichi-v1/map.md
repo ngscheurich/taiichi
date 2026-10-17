@@ -25,6 +25,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [CLI commands](issues/06-cli-commands.md): flat verbs with one `submit` for every Stage, Jobs numbered per repo and implied inside their worktree, `--pass`/`--fail` for the Verdict, and `$EDITOR` opening with the Stage Input below a scissors line.
 - [Forgejo Tracker rules](issues/07-forgejo-tracker-rules.md): eligible means open, a ready label, and no active Job; Pickup swaps ready labels for configurable position labels and Abandon restores them; branches are `taiichi/<ticket>-j<job>-<slug>`; comments on Pickup, Done, and Abandoned; the Tracker closes the issue on Done.
 - [Forgejo Forge](issues/08-forgejo-forge.md): Ship pushes as the bot with a force-with-lease and replaces the description on rework; Refused is a request for changes since the latest Ship; Closed waits at Ship for a human; Feedback runs from a cursor of Forgejo ids; polling only while a Job waits at Ship.
+- [`taiichi init` and configuration](issues/09-init-and-configuration.md): a server-read `taiichi.toml` with the Forgejo URL and labels, copied into each Job at Pickup; `server.toml` holds tokens by URL and the poll interval; Repos are found by git common dir, one per Forge location; `init` is safe to rerun and relinks moved clones; `taiichi/ready` is the default and `taiichi/abandoned` is dropped.
 
 ## Not yet specified
 
@@ -38,4 +39,6 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 
 - **Other Tracker and Forge adapters.** GitHub, GitLab, Linear, the repo-local `.tracker/` files, and a manual Forge. v1 ships only the Forgejo adapters; the interfaces stay general enough for these, which [Does the Forge interface fit GitHub and GitLab?](issues/03-forge-interface-fit.md) checks.
 - **AI executing Stages.** v1 runs with humans writing Stage Outputs.
+- **A CLI init wizard.** Post-v1, tracked as [CLI init wizard](../taiichi-post-v1/issues/01-cli-init-wizard.md). In v1, `taiichi init` takes flags, settled in [`taiichi init` and configuration](issues/09-init-and-configuration.md).
+- **Listing and removing Repos.** Post-v1, tracked as [List and remove Repos](../taiichi-post-v1/issues/02-list-and-remove-repos.md), including what removal does to active Jobs, history, branches, and Tickets. In v1 a Repo is removed by hand, as described in [`taiichi init` and configuration](issues/09-init-and-configuration.md).
 - **`--json` CLI output.** A fast-follow after v1, settled in [CLI commands](issues/06-cli-commands.md). In v1 the CLI prints for people, and scripts can call the server's HTTP API.

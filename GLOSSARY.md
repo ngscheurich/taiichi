@@ -6,6 +6,10 @@ A software factory that pulls Tickets from a Tracker and tracks each one as it m
 
 ### Work
 
+**Repo**:
+A git repository that has opted in with `taiichi init`. It names its Tracker and Forge, and its Jobs are numbered within it.
+_Avoid_: Project
+
 **Tracker**:
 The project management system Tickets come from, such as Forgejo, GitHub Issues, or Linear.
 _Avoid_: PM system, source

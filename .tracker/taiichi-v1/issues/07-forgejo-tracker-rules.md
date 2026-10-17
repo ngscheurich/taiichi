@@ -39,3 +39,9 @@ Settled with the user. No glossary change: ready labels and position labels are 
 - **Closing:** when the Job reaches Done, the Tracker closes the issue directly. The Forge puts no closing keyword in the pull request, which keeps the two adapters independent. Whether the pull request *mentions* the issue is left to [Forgejo Forge](08-forgejo-forge.md). An Abandoned Job leaves its issue open.
 
 **Per-project knobs:** the Tracker's `owner/repo`, the ready-label list, the position-label map, and the three comment switches.
+
+## Comments
+
+**From [`taiichi init` and configuration](09-init-and-configuration.md):** two rules here changed.
+- The `abandoned` position label is dropped, so the position map covers Plan, Build, Evaluate, Ship, and Done. Abandon removes the current position label and restores the ready labels, with no trace label left on the issue. The Abandoned comment and the Job history still record it.
+- The default ready label is `taiichi/ready`, created by `taiichi init` as an exclusive label in the `taiichi` scope next to the position labels. "Per-project" settings are now per Repo.
