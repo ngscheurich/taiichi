@@ -6,6 +6,13 @@ shell = "/bin/bash"
 [build]
 context = "."
 
+[env]
+MISE_YES = "1"
+MIX_BUILD_ROOT = "/vm/artifacts/_build"
+MIX_XDG = "1"
+KERL_BASE_DIR = "/vm/artifacts/.kerl"
+KERL_CONFIGURE_OPTIONS = "--without-javac --without-wx --without-odbc"
+
 [[mounts]]
 type = "bind"
 source = "~/.claude"
@@ -16,9 +23,31 @@ type = "bind"
 source = "~/.claude.json"
 target = "/root/.claude.json"
 
+[[mounts]]
+type = "tmpfs"
+target = "/tmp"
+size = "512M"
+
 [aliases]
 claude = "exec -- claude"
 bash = "exec -- bash"
 
+[volumes.mise_store]
+target = "/root/.local/share/mise"
+scope = "project"
+
+[volumes.hex_cache]
+target = "/root/.cache/hex"
+scope = "project"
+
 [network]
 policy = "public"
+
+[bootstrap]
+run = '''
+set -eu
+mise trust
+mise install
+mix local.hex --force --if-missing
+mix local.rebar --force --if-missing
+'''
