@@ -22,6 +22,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [HTTP over a Unix socket](issues/04-http-over-unix-socket.md): Bandit serves it with `ip: {:local, path}, port: 0`; the server must clear stale socket files and keep the socket in a private directory; curl, Go, Bun, Node and Rust clients support it, Zig's standard client doesn't.
 - [Revisit the transport and protocol](issues/14-revisit-transport-and-protocol.md): kept HTTP + JSON over a Unix socket; the socket keeps out other users and browsers for free, Bandit and Plug do the server work, and a WebSocket covers two-way push if it's ever needed.
 - [Stage Inputs and Stage Outputs](issues/05-stage-inputs-and-outputs.md): Publish is renamed Ship; submitters write plain Markdown plus three values (body, verdict, Shipment title) and the server writes all front matter; a Stage Input is a per-Attempt bundle of new material and references; Evaluate and Ship see the whole history after Plan.
+- [CLI commands](issues/06-cli-commands.md): flat verbs with one `submit` for every Stage, Jobs numbered per repo and implied inside their worktree, `--pass`/`--fail` for the Verdict, and `$EDITOR` opening with the Stage Input below a scissors line.
 
 ## Not yet specified
 
@@ -35,3 +36,4 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 
 - **Other Tracker and Forge adapters.** GitHub, GitLab, Linear, the repo-local `.tracker/` files, and a manual Forge. v1 ships only the Forgejo adapters; the interfaces stay general enough for these, which [Does the Forge interface fit GitHub and GitLab?](issues/03-forge-interface-fit.md) checks.
 - **AI executing Stages.** v1 runs with humans writing Stage Outputs.
+- **`--json` CLI output.** A fast-follow after v1, settled in [CLI commands](issues/06-cli-commands.md). In v1 the CLI prints for people, and scripts can call the server's HTTP API.
