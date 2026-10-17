@@ -22,3 +22,8 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 taiichi-*.tar
 
+# Git worktrees Claude Code creates for isolated agents.
+/.claude/worktrees/
+
+# Personal Claude Code settings
+/.claude/settings.local.json
