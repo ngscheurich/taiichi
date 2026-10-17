@@ -21,3 +21,5 @@ Raised by [Does the Forge interface fit GitHub and GitLab?](03-forge-interface-f
 - Ship as "ship or update" on rework, and what the Manifest stores to scope Report to the latest Ship (head commit, feedback cursor).
 - Policies for comment-only reviews and drafts, and whether rework re-requests review from earlier refusers.
 - Self-review limits: what happens when the Forgejo account Taiichi acts as is also the reviewer's account.
+
+From [Forgejo Tracker rules](07-forgejo-tracker-rules.md): the Tracker closes the issue itself when the Job reaches Done, so the pull request carries no closing keyword. Whether it mentions the issue (for example `Refs #42`) is decided here.

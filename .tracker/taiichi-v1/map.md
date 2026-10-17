@@ -23,11 +23,12 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [Revisit the transport and protocol](issues/14-revisit-transport-and-protocol.md): kept HTTP + JSON over a Unix socket; the socket keeps out other users and browsers for free, Bandit and Plug do the server work, and a WebSocket covers two-way push if it's ever needed.
 - [Stage Inputs and Stage Outputs](issues/05-stage-inputs-and-outputs.md): Publish is renamed Ship; submitters write plain Markdown plus three values (body, verdict, Shipment title) and the server writes all front matter; a Stage Input is a per-Attempt bundle of new material and references; Evaluate and Ship see the whole history after Plan.
 - [CLI commands](issues/06-cli-commands.md): flat verbs with one `submit` for every Stage, Jobs numbered per repo and implied inside their worktree, `--pass`/`--fail` for the Verdict, and `$EDITOR` opening with the Stage Input below a scissors line.
+- [Forgejo Tracker rules](issues/07-forgejo-tracker-rules.md): eligible means open, a ready label, and no active Job; Pickup swaps ready labels for configurable position labels and Abandon restores them; branches are `taiichi/<ticket>-j<job>-<slug>`; comments on Pickup, Done, and Abandoned; the Tracker closes the issue on Done.
 
 ## Not yet specified
 
 - **The executor seam.** Where a future Stage executor, human or AI, plugs in: how it's handed a Stage Input and how it submits a Stage Output. v1 defines the seam but doesn't use it for AI.
-- **A Ticket changing under a running Job.** What happens when its Ticket is edited, closed, or relabelled mid-Job.
+- **A Ticket changing under a running Job.** What happens when its Ticket is edited, closed, or relabelled mid-Job, including someone re-adding a ready label that Pickup removed.
 - **Forgejo being unreachable.** How Pickup, write-back, shipping, and polling behave when the Forge or Tracker can't be reached.
 - **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server. HTTP can push with server-sent events (one-way) or a WebSocket (two-way); whether the CLI's language has a WebSocket client that works over a Unix socket is unchecked.
 - **Commits pushed to a Shipment by someone else.** A reviewer or bot pushes to the Shipment's branch on the Forge, leaving the worktree behind and throwing off the next Build's starting commit.
