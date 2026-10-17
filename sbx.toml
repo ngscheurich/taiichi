@@ -12,6 +12,10 @@ MIX_BUILD_ROOT = "/vm/artifacts/_build"
 MIX_XDG = "1"
 KERL_BASE_DIR = "/vm/artifacts/.kerl"
 KERL_CONFIGURE_OPTIONS = "--without-javac --without-wx --without-odbc"
+GIT_AUTHOR_NAME = "N. G. Scheurich"
+GIT_AUTHOR_EMAIL = "nick@scheurich.me"
+GIT_COMMITTER_NAME = "N. G. Scheurich"
+GIT_COMMITTER_EMAIL = "nick@scheurich.me"
 
 [[mounts]]
 type = "bind"
