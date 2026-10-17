@@ -20,13 +20,14 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [Does the Forge interface fit GitHub and GitLab?](issues/03-forge-interface-fit.md): yes, with four adjustments: Report adds Pending and Closed outcomes and is scoped to the latest Publish, Publish updates an existing Shipment, and feedback is a list of items.
 - [Forgejo API for the Tracker and Forge](issues/02-forgejo-api.md): everything v1 needs exists; Refused is a request-changes review, Accepted is merged, authors can't review their own pull requests, and one filtered issues query polls cheaply.
 - [HTTP over a Unix socket](issues/04-http-over-unix-socket.md): Bandit serves it with `ip: {:local, path}, port: 0`; the server must clear stale socket files and keep the socket in a private directory; curl, Go, Bun, Node and Rust clients support it, Zig's standard client doesn't.
+- [Revisit the transport and protocol](issues/14-revisit-transport-and-protocol.md): kept HTTP + JSON over a Unix socket; the socket keeps out other users and browsers for free, Bandit and Plug do the server work, and a WebSocket covers two-way push if it's ever needed.
 
 ## Not yet specified
 
 - **The executor seam.** Where a future Stage executor, human or AI, plugs in: how it's handed a Stage Input and how it submits a Stage Output. v1 defines the seam but doesn't use it for AI.
 - **A Ticket changing under a running Job.** What happens when its Ticket is edited, closed, or relabelled mid-Job.
 - **Forgejo being unreachable.** How Pickup, write-back, publishing, and polling behave when the Forge or Tracker can't be reached.
-- **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server.
+- **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server. HTTP can push with server-sent events (one-way) or a WebSocket (two-way); whether the CLI's language has a WebSocket client that works over a Unix socket is unchecked.
 
 ## Out of scope
 
