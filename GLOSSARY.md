@@ -19,7 +19,7 @@ A work item as it lives in a Tracker. The factory reads it but does not own it.
 _Avoid_: Issue, task, story
 
 **Job**:
-The factory's own record of one Ticket moving through the Pipeline, including its current position and its history.
+The factory's own record of one Ticket moving through the Pipeline, including its current Position and its history.
 _Avoid_: Ticket (for the factory's record), run, work order
 
 **Pickup**:
@@ -58,6 +58,10 @@ _Avoid_: Workflow, process
 **Stage**:
 A position in the Pipeline where work happens: Plan, Build, Evaluate, or Ship.
 _Avoid_: Step, phase
+
+**Position**:
+Where a Job stands in the Pipeline: one of the four Stages, at an Attempt, or one of the two ends, Done or Abandoned.
+_Avoid_: State, status
 
 **Attempt**:
 One entry of a Job into a Stage, numbered within that Stage (Build 1, Build 2) so that repeated visits are kept apart.

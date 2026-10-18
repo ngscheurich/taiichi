@@ -26,13 +26,14 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [Forgejo Tracker rules](issues/07-forgejo-tracker-rules.md): eligible means open, a ready label, and no active Job; Pickup swaps ready labels for configurable position labels and Abandon restores them; branches are `taiichi/<ticket>-j<job>-<slug>`; comments on Pickup, Done, and Abandoned; the Tracker closes the issue on Done.
 - [Forgejo Forge](issues/08-forgejo-forge.md): Ship pushes as the bot with a force-with-lease and replaces the description on rework; Refused is a request for changes since the latest Ship; Closed waits at Ship for a human; Feedback runs from a cursor of Forgejo ids; polling only while a Job waits at Ship.
 - [`taiichi init` and configuration](issues/09-init-and-configuration.md): a server-read `taiichi.toml` with the Forgejo URL and labels, copied into each Job at Pickup; `server.toml` holds tokens by URL and the poll interval; Repos are found by git common dir, one per Forge location; `init` is safe to rerun and relinks moved clones; `taiichi/ready` is the default and `taiichi/abandoned` is dropped.
+- [HTTP API shape](issues/10-http-api-shape.md): plain RPC, `POST /v1/<method>` with JSON and synchronous calls; every Job method takes `{git_dir, job}`, and `locate` finds the Job for a worktree; one Job object everywhere, with Position as flat fields; errors carry a string `code`, with 404 for anything missing and 502 for Forgejo.
 
 ## Not yet specified
 
 - **The executor seam.** Where a future Stage executor, human or AI, plugs in: how it's handed a Stage Input and how it submits a Stage Output. v1 defines the seam but doesn't use it for AI.
 - **A Ticket changing under a running Job.** What happens when its Ticket is edited, closed, or relabelled mid-Job, including someone re-adding a ready label that Pickup removed.
 - **Forgejo being unreachable.** How Pickup, write-back, shipping, and polling behave when the Forge or Tracker can't be reached.
-- **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server. HTTP can push with server-sent events (one-way) or a WebSocket (two-way); whether the CLI's language has a WebSocket client that works over a Unix socket is unchecked.
+- **Watching a Job live.** Whether the CLI can follow a Job's progress as it happens, and what that needs from the server. HTTP can push with server-sent events (one-way) or a WebSocket (two-way); whether the CLI's language has a WebSocket client that works over a Unix socket is unchecked. The API is plain RPC, not JSON-RPC (see [HTTP API shape](issues/10-http-api-shape.md)), so how a WebSocket's messages are framed would be decided here.
 - **A Shipment changing under a Job.** While the Job is away from Ship, its Shipment is merged, closed, or pushed to on the Forge. Report only runs at Ship, and the Pipeline reaches Done only from Ship. A push by someone else also leaves the worktree behind and throws off the next Build's starting commit; Ship's force-with-lease refuses to overwrite it (see [Forgejo Forge](issues/08-forgejo-forge.md)).
 
 ## Out of scope

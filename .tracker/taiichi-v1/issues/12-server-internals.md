@@ -20,3 +20,9 @@ How is the server built inside?
 - "At most one active Job per Ticket" holds across the whole server, keyed by the Tracker's location plus the Ticket id, not per Repo.
 - A Repo is looked up by its clone's absolute git common dir, and the server holds at most one Repo per Forge location.
 - Each Job stores a copy of its Repo's Tracker and Forge settings from Pickup.
+
+**From [HTTP API shape](10-http-api-shape.md):**
+- `submit` carries the Stage and Attempt it was written for; refuse a mismatch with the Job's current Position as `409 job_moved`.
+- `locate` matches a worktree path exactly against Job worktrees, so the server needs a lookup from worktree path to Job.
+- `init` reads the clone's `origin` remote and finds its main working tree from the common dir; the CLI sends neither.
+- `document` with no Attempt means the latest Attempt of that Stage with a Stage Output, and `show`'s history needs each Attempt's start time and, for Ship, its outcome and Feedback item count.
