@@ -48,3 +48,7 @@ Settled with the user while charting. Terms are defined in `GLOSSARY.md`.
 - The core owns only rules that hold for every Tracker: one active Job per Ticket, and the Pipeline's transitions.
 - A Forge does two things: publish a Job's branch as a Shipment, producing the Manifest; and report the Shipment's outcome. The factory learns the outcome by polling.
 - v1 uses a locally hosted Forgejo instance as both Tracker and Forge.
+
+## Comments
+
+**From [Server internals](12-server-internals.md):** Stage data is no longer saved as Markdown files with YAML front matter in a data folder. The server keeps it in one SQLite database through Ecto (`$XDG_DATA_HOME/taiichi/taiichi.db`), and worktrees stay on disk. Jobs are numbered across the server, not per repo. See [SQLite for the server's data](../../../docs/adr/0001-sqlite-for-server-data.md).

@@ -95,3 +95,7 @@ There's no separate re-init command; running `init` again is safe. If `taiichi.t
 **Post-v1** (outside this map, as `needs-triage` issues):
 - [CLI init wizard](../../taiichi-post-v1/issues/01-cli-init-wizard.md)
 - [List and remove Repos](../../taiichi-post-v1/issues/02-list-and-remove-repos.md)
+
+## Comments
+
+**From [Server internals](12-server-internals.md):** a Repo is no longer one folder; the server's data is in SQLite. Removing a Repo by hand is: abandon its active Jobs, stop the server, `DELETE FROM repos WHERE id = …` (cascades to its Jobs and their history), delete those Jobs' worktrees under `$XDG_DATA_HOME/taiichi/worktrees/`, run `git worktree prune` in the clone, start the server. Job numbers are server-wide and never reused, so they no longer restart after a removal; Pickup's branch-name check stays as a guard.

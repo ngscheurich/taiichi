@@ -54,3 +54,5 @@ No glossary change: no domain terms moved.
 **From [`taiichi init` and configuration](09-init-and-configuration.md):** `taiichi init` takes `--forge-url` and `--forge-repo` (required when `origin` isn't an HTTP(S) URL), a repeatable `--ready-label`, and `--yes` to skip the offer to create missing labels. Running it again is safe, and it also relinks a moved clone. `taiichi repos` was considered and moved post-v1.
 
 **From [CLI language](11-cli-language.md):** `cat` is now `taiichi cat <stage> [job] [-n <attempt>]`. The Job is the last positional on every command, which for every other Job command is the only positional. The old `[job] <stage> [<n>]` form couldn't be parsed by parsers that bind positionals left to right.
+
+**From [Server internals](12-server-internals.md):** Jobs are numbered across the whole server, not per repo, and numbers are never reused. A Job command given a number (`taiichi show 12`) works from any folder; with the number left out, the CLI still finds the Job from the current worktree.

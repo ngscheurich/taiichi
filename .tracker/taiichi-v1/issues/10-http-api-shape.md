@@ -96,3 +96,7 @@ The CLI's `path` reads `worktree` from `show`; `cat` calls `document`; `submit`'
 This is v1's starting list; codes are added as the spec needs them. Each one matches a check settled in an earlier ticket.
 
 No ADR: the choices are reversible and documented here.
+
+## Comments
+
+**From [Server internals](12-server-internals.md):** Job numbers are server-wide, so Job methods (`show`, `input`, `document`, `submit`, `abandon`) take `{job, …}` without `git_dir`, and `locate` takes `{worktree}`. `jobs`, `tickets`, `pickup`, `init`, and `status` keep `git_dir`. Worktree paths are `…/taiichi/worktrees/<job>` (the example's `repos/3/worktrees/7` is out of date). Reads come straight from the database, and a Ship Attempt's `shipment.outcome` and `checked_at` are stored by the poller.

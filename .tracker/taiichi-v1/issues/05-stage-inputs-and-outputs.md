@@ -55,3 +55,7 @@ Settled with the user. Terms are defined in `GLOSSARY.md`.
 - **Build:** the Blueprint, plus the latest reason it came back (the failed Evaluation, or the Feedback). Not the full history, since the worktree holds the earlier work.
 - **Evaluate:** the Ticket Snapshot, the Blueprint, and the Job's history after Plan, in order: each Build Notes alongside the failed Evaluation or Feedback that sent the Job back to Build. Per-Attempt Build Notes don't tell the whole story on their own.
 - **Ship:** the same as Evaluate, ending with the passing Evaluation.
+
+## Comments
+
+**From [Server internals](12-server-internals.md):** the server writes no front matter: documents are SQLite rows, and the values that were front matter are a JSON `meta` column. A Stage Input is stored as `input_parts` rows pointing at documents, in order, instead of an input document listing paths. Feedback is stored with the Build Attempt it opens.

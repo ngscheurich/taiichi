@@ -7,7 +7,7 @@ A software factory that pulls Tickets from a Tracker and tracks each one as it m
 ### Work
 
 **Repo**:
-A git repository that has opted in with `taiichi init`. It names its Tracker and Forge, and its Jobs are numbered within it.
+A git repository that has opted in with `taiichi init`. It names its Tracker and Forge.
 _Avoid_: Project
 
 **Tracker**:
@@ -19,7 +19,7 @@ A work item as it lives in a Tracker. The factory reads it but does not own it.
 _Avoid_: Issue, task, story
 
 **Job**:
-The factory's own record of one Ticket moving through the Pipeline, including its current Position and its history.
+The factory's own record of one Ticket moving through the Pipeline, including its current Position and its history. Each Job has a number that is unique across the server and never reused.
 _Avoid_: Ticket (for the factory's record), run, work order
 
 **Pickup**:
