@@ -5,7 +5,7 @@ Status: resolved
 
 ## Question
 
-What exactly is in each Stage's Stage Input and Stage Output?
+What exactly is in each Stage's Input and Output?
 
 - The required front-matter fields of the Blueprint, Build Notes, Evaluation (including the Verdict), and Manifest, and what goes in the Markdown body of each.
 - What each Stage Input is made of: the copied Ticket for Plan; the Blueprint for Build; for a Build retry, the failed Evaluation; for rework after a Refused Shipment, the reviewer's feedback; the Build Notes for Evaluate; and what Publish receives.

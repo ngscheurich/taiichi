@@ -34,7 +34,7 @@ Settled with the user while charting. Terms are defined in `GLOSSARY.md`.
 - Branches are named from the Ticket under a `taiichi/` prefix, branched from the tip of the repo's default branch at Pickup. Worktrees live in the server's data folder.
 - Many Jobs can run in parallel; at most one active Job per Ticket.
 - Submitting a valid Stage Output ends the Attempt and moves the Job on right away. An Evaluation is routed by its Verdict: pass goes to Publish, fail goes back to Build.
-- After the Manifest is submitted, the Job waits at Publish until its Shipment is Accepted (the Job moves to Done) or Refused (the Job returns to Build, with the reviewer's feedback in Build's Stage Input).
+- After the Manifest is submitted, the Job waits at Publish until its Shipment is Accepted (the Job moves to Done) or Refused (the Job returns to Build, with the reviewer's feedback in Build's Input).
 - Every Attempt is kept; nothing is overwritten. A Build retry's Stage Input includes the failed Evaluation.
 - A human can abandon a Job from any Stage. At Done or Abandoned, the worktree is removed; the branch and the Job's history are kept.
 

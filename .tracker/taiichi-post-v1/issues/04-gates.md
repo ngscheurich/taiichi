@@ -9,7 +9,7 @@ Once a second operator drives Stages (for example, an AI agent), the primary ope
 3. The Plan gate sends the Blueprint back with notes, before the Job enters Build.
 4. Plan runs again, as Plan 2.
 
-A gate is named for the Stage whose work it checks: it reads that Stage's Stage Output, and sending it back repeats that Stage. So step 3 is the Plan gate, not the Build gate.
+A gate is named for the Stage whose work it checks: it reads that Stage's Output, and sending it back repeats that Stage. So step 3 is the Plan gate, not the Build gate.
 
 v1 already allows this: Attempts are numbered within each Stage, so a Plan 2 needs no change to how they're stored. See [An operation stopping partway](../../taiichi-v1/issues/15-operation-stopping-partway.md).
 

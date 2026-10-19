@@ -11,7 +11,7 @@ How does the Forgejo Forge ship a Shipment and Report on it?
 - Pushing the branch and opening the pull request: title, body (including any closing keyword), target branch.
 - What the Manifest records.
 - Polling: what is polled, how often (configurable?), and what counts as Accepted and as Refused.
-- How the reviewer's feedback is gathered into Build's Stage Input on a Refused Shipment, and what happens to the open pull request when the Job returns to Ship.
+- How the reviewer's feedback is gathered into Build's Input on a Refused Shipment, and what happens to the open pull request when the Job returns to Ship.
 
 Build on [Forgejo API for the Tracker and Forge](02-forgejo-api.md) and keep the shape that [Does the Forge interface fit GitHub and GitLab?](03-forge-interface-fit.md) validates.
 

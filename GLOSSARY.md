@@ -73,7 +73,7 @@ Where a Job stands in the Pipeline: one of the four Stages, at an Attempt, or on
 _Avoid_: State, status
 
 **Attempt**:
-One try of a Job at a Stage, numbered within that Stage (Build 1, Build 2) so that repeated Attempts are kept apart. Its Stage Output may be sent back, which starts the next Attempt.
+One try of a Job at a Stage, numbered within that Stage (Build 1, Build 2) so that repeated Attempts are kept apart. Its Output may be sent back, which starts the next Attempt.
 _Avoid_: Pass, iteration, run
 
 **Done**:
@@ -86,10 +86,10 @@ _Avoid_: Cancelled, closed
 ### Stage data
 
 **Stage Input**:
-Everything a Stage receives when a Job enters it: new material such as a Ticket Snapshot or Feedback, plus references to earlier Stage Outputs.
+Everything a Stage receives when a Job enters it: new material such as a Ticket Snapshot or Feedback, plus references to earlier Stage Outputs. Shortened to Input after a possessive that already names the Stage or Attempt, as in "Build's Input".
 
 **Stage Output**:
-The structured data a Stage produces for a Job before the Job leaves it.
+The structured data a Stage produces for a Job before the Job leaves it. Shortened to Output after a possessive that already names the Stage or Attempt, as in "Plan's Output".
 
 **Ticket Snapshot**:
 The copy of a Ticket taken once at Pickup, which Plan works from and which never changes afterward.

@@ -26,7 +26,7 @@ taiichi tickets                       Tickets eligible for Pickup
 taiichi pickup <ticket>               start a Job; prints its number, branch, worktree
 taiichi jobs [--all]                  this repo's active Jobs (--all: Done and Abandoned too)
 taiichi show [job]                    position, branch, worktree, Shipment, history, what's next
-taiichi input [job]                   the current Attempt's Stage Input
+taiichi input [job]                   the current Attempt's Input
 taiichi path [job]                    the worktree path, nothing else
 taiichi cat [job] <stage> [<n>]       one stored document (default: latest Attempt)
 taiichi submit [job] [-f FILE | -]    the current Stage's Output
