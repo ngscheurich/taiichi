@@ -73,7 +73,7 @@ Where a Job stands in the Pipeline: one of the four Stages, at an Attempt, or on
 _Avoid_: State, status
 
 **Attempt**:
-One entry of a Job into a Stage, numbered within that Stage (Build 1, Build 2) so that repeated visits are kept apart.
+One try of a Job at a Stage, numbered within that Stage (Build 1, Build 2) so that repeated Attempts are kept apart. Its Stage Output may be sent back, which starts the next Attempt.
 _Avoid_: Pass, iteration, run
 
 **Done**:
