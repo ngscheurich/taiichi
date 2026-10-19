@@ -30,24 +30,33 @@ The place a Job's work is shipped for review and acceptance, such as Forgejo, Gi
 _Avoid_: Host, remote
 
 **Shipment**:
-The work a Forge holds for review until it is Accepted or Refused, such as a pull request on Forgejo or GitHub.
+The work a Forge holds for review, such as a pull request on Forgejo or GitHub. Every Ship of a Job updates the same Shipment, and a Report on it covers only the latest Ship.
 _Avoid_: Pull request, PR, merge request
 
+**Feedback**:
+The comments left on a Shipment since the last Feedback, gathered when the Shipment is Refused and carried back to Build in its Stage Input. Anyone but the factory's own account may contribute.
+_Avoid_: Review comments, change requests
+
+**Report**:
+What an outside system says about something a Job is waiting on, each time it is checked. A Report's value means something only alongside what it reports on, so values are grouped by subject below.
+_Avoid_: Outcome, status
+
+### Reports on a Shipment
+
+**Pending**:
+The Shipment is still under review, including one approved but not yet taken.
+
 **Accepted**:
-The outcome of a Shipment that the reviewer takes, which moves the Job to Done.
+The reviewer took the Shipment, which moves the Job to Done.
 _Avoid_: Merged, approved
 
 **Refused**:
-The outcome of a Shipment that the reviewer sends back with changes requested, which returns the Job to Build.
+The reviewer sent the Shipment back with changes requested, which returns the Job to Build.
 _Avoid_: Rejected, changes requested
 
 **Closed**:
-The outcome of a Shipment withdrawn from review without being Accepted, such as a pull request closed without merging. The Job stays at Ship until a human abandons it or the Shipment is reopened.
+The Shipment was withdrawn from review without being Accepted, such as a pull request closed without merging. The Job stays at Ship until a human abandons it or the Shipment is reopened.
 _Avoid_: Abandoned (for the Shipment), declined
-
-**Feedback**:
-The comments left on a Shipment since the last Feedback, gathered when it is Refused and carried back to Build in its Stage Input. Anyone but the factory's own account may contribute.
-_Avoid_: Review comments, change requests
 
 ### Pipeline
 
@@ -68,7 +77,7 @@ One entry of a Job into a Stage, numbered within that Stage (Build 1, Build 2) s
 _Avoid_: Pass, iteration, run
 
 **Done**:
-The end of the Pipeline for a Job whose Shipment was Accepted.
+The end of the Pipeline for a Job, reached when the Job's Shipment is Accepted.
 
 **Abandoned**:
 The end of the Pipeline for a Job that was dropped before being accepted.

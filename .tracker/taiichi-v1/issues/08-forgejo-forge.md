@@ -6,7 +6,7 @@ Blocked by: 02, 03
 
 ## Question
 
-How does the Forgejo Forge ship a Shipment and detect its outcome?
+How does the Forgejo Forge ship a Shipment and Report on it?
 
 - Pushing the branch and opening the pull request: title, body (including any closing keyword), target branch.
 - What the Manifest records.
@@ -17,7 +17,7 @@ Build on [Forgejo API for the Tracker and Forge](02-forgejo-api.md) and keep the
 
 Raised by [Does the Forge interface fit GitHub and GitLab?](03-forge-interface-fit.md), also to settle here:
 
-- How Report's outcomes (Pending, Accepted, Refused, Closed) map onto the Pipeline, especially a Shipment closed without merging.
+- How what a Report can say (Pending, Accepted, Refused, Closed) maps onto the Pipeline, especially a Shipment closed without merging.
 - Ship as "ship or update" on rework, and what the Manifest stores to scope Report to the latest Ship (head commit, feedback cursor).
 - Policies for comment-only reviews and drafts, and whether rework re-requests review from earlier refusers.
 - Self-review limits: what happens when the Forgejo account Taiichi acts as is also the reviewer's account.
@@ -26,7 +26,7 @@ From [Forgejo Tracker rules](07-forgejo-tracker-rules.md): the Tracker closes th
 
 ## Answer
 
-Settled with the user. Glossary: **Closed** added as a Shipment outcome, and **Feedback** widened to the comments left since the last Feedback, from anyone but the factory's own account.
+Settled with the user. Glossary: **Closed** added for a Shipment withdrawn without merging, and **Feedback** widened to the comments left since the last Feedback, from anyone but the factory's own account.
 
 **Ship**
 - Pushes over HTTPS as Taiichi's Forgejo account, with the token the server holds, using `--force-with-lease` against the last shipped commit. A rewrite of the Job's own history goes through; if someone else pushed in the meantime, the submission is refused with a clear error and the Job stays at Ship.

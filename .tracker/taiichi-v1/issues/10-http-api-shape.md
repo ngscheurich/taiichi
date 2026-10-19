@@ -59,17 +59,17 @@ The CLI's `path` reads `worktree` from `show`; `cat` calls `document`; `submit`'
    "position": "ship", "attempt": 1, "awaiting": "shipment",
    "branch": "taiichi/42-j7-add-a-dark-mode-toggle",
    "worktree": "/home/ngs/.local/share/taiichi/repos/3/worktrees/7",
-   "shipment": {"url": "https://forgejo.example/ngs/widgets/pulls/51", "outcome": "pending", "checked_at": "2026-10-17T12:03:00Z"},
+   "shipment": {"url": "https://forgejo.example/ngs/widgets/pulls/51", "last_report": "pending", "reported_at": "2026-10-17T12:03:00Z"},
    "picked_up_at": "2026-10-17T09:12:00Z", "ended_at": null}
   ```
-  `position` is `plan`, `build`, `evaluate`, `ship`, `done`, or `abandoned`; `attempt` is `null` at Done and Abandoned. `awaiting` is `stage_output` (a human must submit), `shipment` (waiting on the Forge, including a Closed Shipment), or `null` once ended. `worktree` is `null` once removed. `shipment.outcome` is `pending`, `refused`, `accepted`, or `closed`, for the latest Ship. There's no "what's next" field: the Pipeline is fixed, so the CLI derives it from `position` and `awaiting`.
+  `position` is `plan`, `build`, `evaluate`, `ship`, `done`, or `abandoned`; `attempt` is `null` at Done and Abandoned. `awaiting` is `stage_output` (a human must submit), `shipment` (waiting on the Forge, including a Closed Shipment), or `null` once ended. `worktree` is `null` once removed. `shipment.last_report` is `pending`, `refused`, `accepted`, or `closed`: the latest Report on the Shipment, made at `reported_at`. There's no "what's next" field: the Pipeline is fixed, so the CLI derives it from `position` and `awaiting`.
 - **History** (on `show` only): one entry per Attempt, oldest first, the current one last with `output: null`. Bodies come from `document`.
   ```json
   {"stage": "ship", "attempt": 1, "started_at": "...",
    "output": {"kind": "manifest", "submitted_at": "...", "meta": {"shipment_url": "...", "commit": "c07b311"}},
-   "outcome": "refused", "feedback_items": 2}
+   "last_report": "refused", "feedback_items": 2}
   ```
-  `outcome` and `feedback_items` are `null` except on Ship Attempts.
+  `last_report` and `feedback_items` are `null` except on Ship Attempts.
 - **Document:** `{kind, stage, attempt, meta, body}`. The server's front matter comes back as `meta`, the Markdown as `body`; YAML stays a storage detail. `kind` is `ticket_snapshot`, `blueprint`, `build_notes`, `evaluation`, `manifest`, or `feedback`. A Ticket Snapshot has `null` Stage and Attempt; Feedback carries the Ship Attempt that brought it back. `cat` prints `meta` as `key: value` lines above the body.
 - A Stage Input is returned as an ordered list of its parts, each a document, which the CLI prints in order under headings and a future Stage executor can take without parsing.
 
@@ -99,4 +99,4 @@ No ADR: the choices are reversible and documented here.
 
 ## Comments
 
-**From [Server internals](12-server-internals.md):** Job numbers are server-wide, so Job methods (`show`, `input`, `document`, `submit`, `abandon`) take `{job, …}` without `git_dir`, and `locate` takes `{worktree}`. `jobs`, `tickets`, `pickup`, `init`, and `status` keep `git_dir`. Worktree paths are `…/taiichi/worktrees/<job>` (the example's `repos/3/worktrees/7` is out of date). Reads come straight from the database, and a Ship Attempt's `shipment.outcome` and `checked_at` are stored by the poller.
+**From [Server internals](12-server-internals.md):** Job numbers are server-wide, so Job methods (`show`, `input`, `document`, `submit`, `abandon`) take `{job, …}` without `git_dir`, and `locate` takes `{worktree}`. `jobs`, `tickets`, `pickup`, `init`, and `status` keep `git_dir`. Worktree paths are `…/taiichi/worktrees/<job>` (the example's `repos/3/worktrees/7` is out of date). Reads come straight from the database, and a Ship Attempt's `shipment.last_report` and `reported_at` are stored by the poller.

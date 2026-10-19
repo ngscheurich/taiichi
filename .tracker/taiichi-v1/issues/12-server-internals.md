@@ -32,11 +32,11 @@ Settled with the user. Glossary: a Repo no longer numbers its Jobs; each Job has
 - Every table has an integer `id` primary key, `AUTOINCREMENT` so ids are never reused.
 - **`repos`:** `git_dir` (unique), main worktree path, Forge and Tracker locations, `registered_at`. Unique on Forge URL plus Forge repo.
 - **`jobs`:** `id` *is* the Job number people see, unique across the server. `repo_id`, Ticket id, Tracker URL and repo, `settings` (JSON copy of the Tracker and Forge settings from Pickup), branch, worktree (unique, null once removed), `picked_up_at`, `ended_at`, `ended_as` (`done`, `abandoned`, or null). A partial unique index on (Tracker URL, Tracker repo, Ticket id) `WHERE ended_at IS NULL` enforces one active Job per Ticket across the whole server.
-- **`attempts`:** `job_id`, `seq` (order within the Job), `stage`, `number` (within the Stage), `started_at`, and on Ship Attempts `shipment_outcome` and `shipment_checked_at`, written by the poller on each check. Unique on (Job, `seq`) and on (Job, Stage, number).
+- **`attempts`:** `job_id`, `seq` (order within the Job), `stage`, `number` (within the Stage), `started_at`, and on Ship Attempts `last_report` (the latest Report: `pending`, `accepted`, `refused`, or `closed`) and `reported_at`, written by the poller on each check. Unique on (Job, `seq`) and on (Job, Stage, number). `CHECK (stage = 'ship' OR (last_report IS NULL AND reported_at IS NULL))` keeps both off every other Stage's Attempts.
 - **`documents`:** `kind`, `meta` (JSON), `body`, `created_at`, and either `job_id` (the Ticket Snapshot) or `attempt_id`. An Attempt has at most one Stage Output. Feedback hangs off the Build Attempt it opens, and its `meta` names the Ship Attempt it came from. The Ship marker and the starting feedback cursor are in the Manifest's `meta`; each Feedback records the cursor it advanced to, and the current cursor is the latest of these. `body` is left out of queries unless asked for (`load_in_query: false`), so list queries don't load large bodies.
 - **`input_parts`:** (`attempt_id`, `position`, `document_id`), written in the same transaction that creates the Attempt. Every Stage Input is stored, not recomputed, so a later change to the rules never rewrites what an old Attempt received.
 - **Position is derived, not stored:** the current Attempt is the Job's highest `seq`; whether it has a Stage Output tells "awaiting Stage Output" from "waiting on the Shipment"; `ended_as` gives Done or Abandoned.
-- A Ship Attempt's outcome in `show`'s history is derived too: Refused if a Build Attempt follows it, Accepted if the Job is Done, otherwise the stored `shipment_outcome`.
+- A Ship Attempt's `last_report` in `show`'s history is derived too: Refused if a Build Attempt follows it, Accepted if the Job is Done, otherwise the stored `last_report`.
 
 **Rules across aggregates**
 - One Repo per Forge location, one active Job per Ticket, and lookups by git common dir and by worktree path are unique indexes. A violation becomes a domain error such as `ticket_has_active_job`, never a raw constraint error.
@@ -45,7 +45,7 @@ Settled with the user. Glossary: a Repo no longer numbers its Jobs; each Job has
 **Processes**
 - **One GenServer per active Job**, under a DynamicSupervisor, serializes that Job's writes: `submit`, `abandon`, and moves reported by the poller. Ended Jobs have no process.
 - **Reads go straight to the database:** `jobs`, `show`, `input`, `document`, and `locate` never wait behind a slow Ship push.
-- **One poller per Forge location** (instance URL plus `owner/repo`), taken from each waiting Job's own settings copy, so a Job keeps polling its own Shipment after `taiichi init` re-points its Repo. It starts when the first Job at that location starts waiting at Ship and stops when none are left. Its `since` value lives in memory; the startup check covers a restart. It tells the Job's process about an outcome, and the process makes the move.
+- **One poller per Forge location** (instance URL plus `owner/repo`), taken from each waiting Job's own settings copy, so a Job keeps polling its own Shipment after `taiichi init` re-points its Repo. It starts when the first Job at that location starts waiting at Ship and stops when none are left. Its `since` value lives in memory; the startup check covers a restart. It tells the Job's process what a Report says, and the process makes the move.
 - A `gen_statem` per Job and a process per Repo were rejected: a Position is data either way, and a per-Repo process would make one Job's push hold up another Job's calls.
 
 **Startup**
@@ -89,4 +89,4 @@ Taiichi.API         Plug router: JSON and error codes; calls only Repos and Jobs
 - `submit` carries the Stage and Attempt it was written for; refuse a mismatch with the Job's current Position as `409 job_moved`.
 - `locate` matches a worktree path exactly against Job worktrees, so the server needs a lookup from worktree path to Job.
 - `init` reads the clone's `origin` remote and finds its main working tree from the common dir; the CLI sends neither.
-- `document` with no Attempt means the latest Attempt of that Stage with a Stage Output, and `show`'s history needs each Attempt's start time and, for Ship, its outcome and Feedback item count.
+- `document` with no Attempt means the latest Attempt of that Stage with a Stage Output, and `show`'s history needs each Attempt's start time and, for Ship, its `last_report` and Feedback item count.

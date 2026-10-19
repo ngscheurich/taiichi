@@ -18,7 +18,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 ## Decisions so far
 
 - [Chart the v1 scope](issues/01-chart-the-v1-scope.md): the v1 boundary, server and CLI split, persistence, Pipeline rules, and Forgejo as both Tracker and Forge, settled while charting.
-- [Does the Forge interface fit GitHub and GitLab?](issues/03-forge-interface-fit.md): yes, with four adjustments: Report adds Pending and Closed outcomes and is scoped to the latest Ship, Ship updates an existing Shipment, and feedback is a list of items.
+- [Does the Forge interface fit GitHub and GitLab?](issues/03-forge-interface-fit.md): yes, with four adjustments: a Report can also say Pending or Closed and is scoped to the latest Ship, Ship updates an existing Shipment, and feedback is a list of items.
 - [Forgejo API for the Tracker and Forge](issues/02-forgejo-api.md): everything v1 needs exists; Refused is a request-changes review, Accepted is merged, authors can't review their own pull requests, and one filtered issues query polls cheaply.
 - [HTTP over a Unix socket](issues/04-http-over-unix-socket.md): Bandit serves it with `ip: {:local, path}, port: 0`; the server must clear stale socket files and keep the socket in a private directory; curl, Go, Bun, Node and Rust clients support it, Zig's standard client doesn't.
 - [Revisit the transport and protocol](issues/14-revisit-transport-and-protocol.md): kept HTTP + JSON over a Unix socket; the socket keeps out other users and browsers for free, Bandit and Plug do the server work, and a WebSocket covers two-way push if it's ever needed.

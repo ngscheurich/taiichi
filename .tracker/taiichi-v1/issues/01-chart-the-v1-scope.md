@@ -46,7 +46,7 @@ Settled with the user while charting. Terms are defined in `GLOSSARY.md`.
 **Trackers and Forges**
 - Both are adapters. The Tracker adapter owns which Tickets are eligible for Pickup, how Job positions map to Ticket states, and how write-back happens; it is called on every Job position change. Two projects on the same Tracker can map differently, so the mapping is configurable per project.
 - The core owns only rules that hold for every Tracker: one active Job per Ticket, and the Pipeline's transitions.
-- A Forge does two things: publish a Job's branch as a Shipment, producing the Manifest; and report the Shipment's outcome. The factory learns the outcome by polling.
+- A Forge does two things: publish a Job's branch as a Shipment, producing the Manifest; and Report on the Shipment. The factory gets each Report by polling.
 - v1 uses a locally hosted Forgejo instance as both Tracker and Forge.
 
 ## Comments
