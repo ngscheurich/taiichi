@@ -27,3 +27,6 @@ taiichi-*.tar
 
 # Personal Claude Code settings
 /.claude/settings.local.json
+
+# Personal teaching workspace (the /teach skill).
+/.teach/
