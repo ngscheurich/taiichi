@@ -90,3 +90,9 @@ Taiichi.API         Plug router: JSON and error codes; calls only Repos and Jobs
 - `locate` matches a worktree path exactly against Job worktrees, so the server needs a lookup from worktree path to Job.
 - `init` reads the clone's `origin` remote and finds its main working tree from the common dir; the CLI sends neither.
 - `document` with no Attempt means the latest Attempt of that Stage with a Stage Output, and `show`'s history needs each Attempt's start time and, for Ship, its `last_report` and Feedback item count.
+
+**From [An operation stopping partway](15-operation-stopping-partway.md):**
+- A new **`shipments`** table, one row per Job inside the Job aggregate: `url`, `number`, `ship_marker`, `last_report`, `reported_at`, `reports_failing_since`. `attempts` drops `last_report`, `reported_at` and their `CHECK`; `show`'s history falls back to the Shipment's `last_report` for the latest Ship Attempt.
+- The Ship marker moves out of the Manifest's `meta` to the Shipment, saved before the push.
+- A new **`outbox`** table holds every step after a save (Tracker labels, comments and closing, closing a pull request, adding and removing worktrees), written in the save's transaction. `Tracker.WriteBack.moved` now writes outbox rows instead of calling Forgejo, and one sender process sends them.
+- Startup starts the outbox sender before the socket opens.

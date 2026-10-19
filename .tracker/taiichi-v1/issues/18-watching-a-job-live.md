@@ -12,3 +12,7 @@ Does the v1 CLI follow a Job's progress as it happens, and if so, what does that
 - Where notifications come from: [Server internals](12-server-internals.md) put Tracker write-back as a direct call after each save, and left domain events for features like this to bring in.
 
 Unchecked fact a decision may wait on: whether a Go WebSocket client can dial a Unix socket ([CLI language](11-cli-language.md)).
+
+## Comments
+
+**From [An operation stopping partway](15-operation-stopping-partway.md):** the server has an `outbox` of effects, sent by one process after each save, but no events: the Job's Attempts, Stage Outputs and `ended_at` record the moves. If watching a Job needs a feed of moves, this ticket brings events in, and the outbox could be filled from them.

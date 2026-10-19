@@ -56,3 +56,5 @@ No glossary change: no domain terms moved.
 **From [CLI language](11-cli-language.md):** `cat` is now `taiichi cat <stage> [job] [-n <attempt>]`. The Job is the last positional on every command, which for every other Job command is the only positional. The old `[job] <stage> [<n>]` form couldn't be parsed by parsers that bind positionals left to right.
 
 **From [Server internals](12-server-internals.md):** Jobs are numbered across the whole server, not per repo, and numbers are never reused. A Job command given a number (`taiichi show 12`) works from any folder; with the number left out, the CLI still finds the Job from the current worktree.
+
+**From [An operation stopping partway](15-operation-stopping-partway.md):** a Stage with only one Attempt prints plainly ("Plan", not "Plan 1"). When `submit` fails and the body came from the editor or stdin, the CLI saves it to `$XDG_STATE_HOME/taiichi/submit/<job>-<stage>-<attempt>.md` and prints the retry command. `abandon` refuses a worktree with uncommitted changes unless `--discard`.

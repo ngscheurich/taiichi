@@ -100,3 +100,8 @@ No ADR: the choices are reversible and documented here.
 ## Comments
 
 **From [Server internals](12-server-internals.md):** Job numbers are server-wide, so Job methods (`show`, `input`, `document`, `submit`, `abandon`) take `{job, …}` without `git_dir`, and `locate` takes `{worktree}`. `jobs`, `tickets`, `pickup`, `init`, and `status` keep `git_dir`. Worktree paths are `…/taiichi/worktrees/<job>` (the example's `repos/3/worktrees/7` is out of date). Reads come straight from the database, and a Ship Attempt's `shipment.last_report` and `reported_at` are stored by the poller.
+
+**From [An operation stopping partway](15-operation-stopping-partway.md):**
+- The Job object gains `outbox` (`null`, or `{pending, failing_since, last_error}` with given-up rows marked) and `shipment.reports_failing_since`.
+- `abandon` takes `discard` (a dirty worktree is otherwise `409 worktree_dirty`), and refuses with `409 shipment_accepted` when its check finds the pull request merged.
+- `502 forgejo_failed` always means nothing was saved. The "Forgejo being unreachable" fog item is settled there.

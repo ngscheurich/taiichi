@@ -57,3 +57,10 @@ Settled with the user. Glossary: **Closed** added for a Shipment withdrawn witho
 - **Abandoning with an open Shipment:** Taiichi closes the pull request with a comment saying the Job was abandoned and the branch is kept, so nobody later merges work with no Job behind it. Abandoned leads to Closed, never the reverse.
 - **Self-review:** the token must belong to a dedicated bot account that never reviews, or Forgejo blocks that reviewer from requesting changes. Taiichi can't detect this, so it's documented, and `taiichi status` shows which Forgejo account Taiichi acts as.
 - **A Shipment changing while the Job is away from Ship** (merged, closed, or pushed to during Build or Evaluate) is left to the map's fog, widened from the earlier item about commits pushed by someone else.
+
+## Comments
+
+**From [An operation stopping partway](15-operation-stopping-partway.md):**
+- The Ship marker is saved on the Shipment before the push and re-read while a push is still needed, so a retry can't skip a review. A review counts if it is newer than the marker; matching its `commit_id` to the shipped head was dropped after research.
+- `--force-with-lease` always names the expected commit. A retry finds an open pull request with `GET /pulls/{base}/{head}` before opening one.
+- Replacing the description, the "Shipped again" comment, re-requesting review, and Abandon's close of the pull request are outbox rows, sent after the save.
