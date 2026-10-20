@@ -33,6 +33,9 @@ _Avoid_: Host, remote
 The work a Forge holds for review, such as a pull request on Forgejo or GitHub. Every Ship of a Job updates the same Shipment, and a Report on it covers only the latest Ship.
 _Avoid_: Pull request, PR, merge request
 
+**Foreign commit**:
+A commit on a Job's branch that someone other than the factory put on the Forge, such as a fix a reviewer pushed. It is part of the Job's work, and the next Ship must include it.
+
 **Feedback**:
 The comments left on a Shipment since the last Feedback, gathered when the Shipment is Refused and carried back to Build in its Stage Input. Anyone but the factory's own account may contribute.
 _Avoid_: Review comments, change requests
@@ -55,13 +58,13 @@ The reviewer sent the Shipment back with changes requested, which returns the Jo
 _Avoid_: Rejected, changes requested
 
 **Closed**:
-The Shipment was withdrawn from review without being Accepted, such as a pull request closed without merging. The Job stays at Ship until a human abandons it or the Shipment is reopened.
+The Shipment was withdrawn from review without being Accepted, such as a pull request closed without merging. The Job can't Ship again until a human reopens the Shipment, and a human may abandon the Job instead.
 _Avoid_: Abandoned (for the Shipment), declined
 
 ### Pipeline
 
 **Pipeline**:
-The fixed state machine every Job moves through: Plan, Build, Evaluate, Ship, with loops back to Build, ending in Done or Abandoned.
+The fixed state machine every Job moves through: Plan, Build, Evaluate, Ship, with loops back to Build, ending in Done or Abandoned from any Stage.
 _Avoid_: Workflow, process
 
 **Stage**:
@@ -77,7 +80,7 @@ One try of a Job at a Stage, numbered within that Stage (Build 1, Build 2) so th
 _Avoid_: Pass, iteration, run
 
 **Done**:
-The end of the Pipeline for a Job, reached when the Job's Shipment is Accepted.
+The end of the Pipeline for a Job, reached when the Job's Shipment is Accepted, from whichever Stage the Job is in.
 
 **Abandoned**:
 The end of the Pipeline for a Job that was dropped before being accepted.
