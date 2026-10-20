@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Call the Forgejo API for this repo's issue tracker. See docs/agents/issue-tracker.md.
+#
+# Usage: scripts/forgejo METHOD PATH [BODY]
+#   PATH  relative to the repo (issues/12), or to /api/v1 when it starts with / (/user)
+#   BODY  JSON request body; pass - to read it from stdin
+#
+# Environment:
+#   FORGEJO_TOKEN  required: a personal access token with read/write issue scope
+#   FORGEJO_URL    default http://host.microsandbox.internal:3000
+#   FORGEJO_REPO   default ngscheurich/taiichi
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+  sed -n '4,11p' "$0" | sed 's/^# \{0,1\}//' >&2
+  exit 2
+fi
+
+: "${FORGEJO_TOKEN:?FORGEJO_TOKEN is not set (see docs/agents/issue-tracker.md)}"
+url=${FORGEJO_URL:-http://host.microsandbox.internal:3000}
+repo=${FORGEJO_REPO:-ngscheurich/taiichi}
+method=$1
+path=$2
+
+case $path in
+  /*) target=$url/api/v1$path ;;
+  *) target=$url/api/v1/repos/$repo/$path ;;
+esac
+
+args=(-sS --fail-with-body -X "$method"
+  -H "Authorization: token $FORGEJO_TOKEN"
+  -H 'Accept: application/json')
+
+if [ $# -ge 3 ]; then
+  args+=(-H 'Content-Type: application/json')
+  if [ "$3" = - ]; then
+    args+=(--data-binary @-)
+  else
+    args+=(--data-binary "$3")
+  fi
+fi
+
+curl "${args[@]}" "$target"

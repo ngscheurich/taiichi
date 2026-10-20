@@ -2,7 +2,7 @@
 
 ### Issue tracker
 
-Issues live as local markdown files under `.tracker/<feature>/`. See `docs/agents/issue-tracker.md`.
+Issues live in Forgejo (`ngscheurich/taiichi` on the host), driven through `scripts/forgejo`; needs `FORGEJO_TOKEN`. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
