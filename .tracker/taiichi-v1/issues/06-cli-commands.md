@@ -63,3 +63,5 @@ No glossary change: no domain terms moved.
 - A new verb, `taiichi ack [job]`, with the Job implied inside its worktree, marks what's new on the Job as seen: the Ticket's edits and comments, and the Shipment's new-comment count.
 - When a Stage Input includes the Ticket Snapshot and the Ticket now differs from it, the editor shows a note above the scissors line, such as "Ticket #42 has changed since this Snapshot: body. See <url>." The stored Stage Input doesn't change.
 - `jobs` marks a Job for a closed or deleted Ticket, a Ticket edited since seen, new comments on the Ticket or Shipment, and failing checks. `show` prints these plus "differs from Snapshot".
+
+**From [Watching a Job live](18-watching-a-job-live.md):** no `--follow` in v1. Following a Job live is post-v1, tracked as [Follow a Job live](../../taiichi-post-v1/issues/05-follow-a-job-live.md); meanwhile `show` and `jobs` print every change the checker makes.
