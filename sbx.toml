@@ -46,6 +46,7 @@ scope = "project"
 
 [network]
 policy = "public"
+host_ports = [3000]
 
 [bootstrap]
 run = '''

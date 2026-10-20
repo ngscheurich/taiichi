@@ -9,7 +9,7 @@ ENV LANG=C.UTF-8 \
 
 # Install system packages
 RUN apk add --no-cache \
-      bash ca-certificates curl git inotify-tools tzdata tar perl \
+      bash ca-certificates curl git inotify-tools jq tzdata tar perl \
       ncurses-libs openssl zlib build-base autoconf automake libtool \
       m4 linux-headers ncurses-dev openssl-dev zlib-dev
 
