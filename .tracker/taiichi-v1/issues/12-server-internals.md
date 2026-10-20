@@ -96,3 +96,7 @@ Taiichi.API         Plug router: JSON and error codes; calls only Repos and Jobs
 - The Ship marker moves out of the Manifest's `meta` to the Shipment, saved before the push.
 - A new **`outbox`** table holds every step after a save (Tracker labels, comments and closing, closing a pull request, adding and removing worktrees), written in the save's transaction. `Tracker.WriteBack.moved` now writes outbox rows instead of calling Forgejo, and one sender process sends them.
 - Startup starts the outbox sender before the socket opens.
+
+**From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
+- `shipments` gains `branch_head` and a count of new comments since the last Feedback. `jobs` gains `base_commit`, read before Pickup's save; the branch is created at it.
+- A poller starts when the first Job at its Forge location has a Shipment, and stops when no active Job there has one, instead of following Jobs waiting at Ship.

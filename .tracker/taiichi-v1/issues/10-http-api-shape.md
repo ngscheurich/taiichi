@@ -105,3 +105,8 @@ No ADR: the choices are reversible and documented here.
 - The Job object gains `outbox` (`null`, or `{pending, failing_since, last_error}` with given-up rows marked) and `shipment.reports_failing_since`.
 - `abandon` takes `discard` (a dirty worktree is otherwise `409 worktree_dirty`), and refuses with `409 shipment_accepted` when its check finds the pull request merged.
 - `502 forgejo_failed` always means nothing was saved. The "Forgejo being unreachable" fog item is settled there.
+
+**From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
+- New errors: `409 branch_moved` and `409 shipment_closed` at Ship. `head_moved` and `shipment_accepted` can now come from Ship's `submit` too.
+- `submit` takes `unjudged` to ship a head other than the commit Evaluate judged.
+- The Job's `shipment` carries `last_report` (now also away from Ship), whether the worktree lacks the branch head, and the count of new comments since the last Feedback.

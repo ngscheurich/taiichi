@@ -64,3 +64,9 @@ Settled with the user. Glossary: **Closed** added for a Shipment withdrawn witho
 - The Ship marker is saved on the Shipment before the push and re-read while a push is still needed, so a retry can't skip a review. A review counts if it is newer than the marker; matching its `commit_id` to the shipped head was dropped after research.
 - `--force-with-lease` always names the expected commit. A retry finds an open pull request with `GET /pulls/{base}/{head}` before opening one.
 - Replacing the description, the "Shipped again" comment, re-requesting review, and Abandon's close of the pull request are outbox rows, sent after the save.
+
+**From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
+- The poller watches every active Job with a Shipment, at any Stage. Away from Ship, Accepted moves the Job to Done, Closed and reopens update `last_report`, and reviews are ignored. Each check saves the pull request's `head.sha` as `branch_head` and, away from Ship, counts comments after the feedback cursor.
+- Closed no longer keeps the Job at Ship: the Job moves on, flagged, and Ship refuses with `409 shipment_closed` until a human reopens the pull request. If the branch was deleted, Ship restores it first.
+- Ship's lease: on the last shipped commit when Forgejo still has it; on Forgejo's head when the worktree contains it; on no branch when it's missing; otherwise `409 branch_moved`.
+- Later Ships read the pull request by the Shipment's number before anything else. The first Ship adopts only an open pull request opened by Taiichi's account, since `GET /pulls/{base}/{head}` returns any state in no fixed order.

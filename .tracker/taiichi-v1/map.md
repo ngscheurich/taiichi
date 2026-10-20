@@ -31,6 +31,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [CLI language](issues/11-cli-language.md): Go with Charm (Cobra, Fang, Huh, Lip Gloss, Glamour, and Bubble Tea later), chosen over TypeScript on Bun for polish, with a checkpoint before the TUI; `server/` and `cli/` sit side by side; `cat` becomes `cat <stage> [job] [-n <attempt>]`.
 - [Server internals](issues/12-server-internals.md): SQLite through Ecto instead of Markdown files, with worktrees on disk; Job numbers are server-wide; one process per active Job serializes writes while reads hit the database; one poller per Forge location; Ecto schemas as the domain model behind store modules; Tracker write-back is a direct call after each save.
 - [An operation stopping partway](issues/15-operation-stopping-partway.md): one save per operation; steps whose result the save needs run before it and are safe to repeat, and the rest go through an outbox the server retries; the Ship marker is saved before the push; a new `shipments` table; Abandon checks for a merge and refuses a dirty worktree; gates are post-v1.
+- [A Shipment changing under a Job](issues/16-shipment-changing-under-a-job.md): the poller watches every Job with a Shipment; a merge at any Stage is Done; a closed Shipment stops only Ship until a human reopens it; the branch is shared, Ship refuses to overwrite unseen pushes or ship an unjudged head without `--unjudged`; Build Notes record foreign commits and the base, with ranges from the last pinned commit.
 
 ## Not yet specified
 

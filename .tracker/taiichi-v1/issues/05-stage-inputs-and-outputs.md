@@ -59,3 +59,8 @@ Settled with the user. Terms are defined in `GLOSSARY.md`.
 ## Comments
 
 **From [Server internals](12-server-internals.md):** the server writes no front matter: documents are SQLite rows, and the values that were front matter are a JSON `meta` column. A Stage Input is stored as `input_parts` rows pointing at documents, in order, instead of an input document listing paths. Feedback is stored with the Build Attempt it opens.
+
+**From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
+- A Build Attempt's range starts at the last commit the server pinned: the Job's `base_commit` for Build 1, the judged commit after a failing Verdict, the shipped commit after a Refusal. This replaces "the head when the Attempt began", which nothing recorded.
+- The range holds every commit that came into the branch during the Attempt, whoever wrote it, except commits reachable from the local `origin/<default>`. Build Notes also records the base move (`base: main@1111 → main@2222`) and the foreign commits (sha and author): those reachable from the local `origin/<job branch>` and not from anything Taiichi pushed.
+- Ship is refused with `409 head_moved` when the head isn't the commit the passing Evaluation judged, unless submitted with `--unjudged`. The Manifest records the judged commit next to the shipped one.

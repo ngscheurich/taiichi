@@ -83,3 +83,9 @@ Settled with the user. Glossary: **Attempt** now says why the word fits: its Sta
 - [Server internals](12-server-internals.md): the `shipments` and `outbox` tables, the marker's new home, and the startup step.
 - [Forgejo Forge](08-forgejo-forge.md): the marker is saved before the push; Ship's later-Attempt extras and Abandon's close are outbox rows.
 - [HTTP API shape](10-http-api-shape.md): `outbox` and `reports_failing_since` on the Job, `409 shipment_accepted`, and `discard` on `abandon`.
+
+## Comments
+
+**From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
+- Abandon reads the pull request whenever the Job has a Shipment, at any Stage, not only at Ship.
+- Submit at Ship first reads the pull request by number: merged ends the Job as Done with `409 shipment_accepted`; closed is `409 shipment_closed`, after restoring a deleted branch.
