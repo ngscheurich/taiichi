@@ -25,6 +25,9 @@ _Avoid_: Ticket (for the factory's record), run, work order
 **Pickup**:
 The act of starting a Job from a Ticket.
 
+**Operator**:
+The human in the loop, who picks up Tickets, writes Stage Outputs, and decides what happens to a Job when the factory can't.
+
 **Forge**:
 The place a Job's work is shipped for review and acceptance, such as Forgejo, GitHub, or GitLab.
 _Avoid_: Host, remote

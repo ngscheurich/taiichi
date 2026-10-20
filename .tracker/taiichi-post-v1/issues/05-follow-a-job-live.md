@@ -14,5 +14,5 @@ What to settle then:
 - **Server-sent events or a WebSocket.** Bandit serves both. One-way push needs only server-sent events.
 - **How messages are framed**, given the API is plain RPC with JSON.
 - **Where events come from:** a broadcast at the write-back call site, or domain events, which would let the outbox be filled from them (see the comment from [An operation stopping partway](../../taiichi-v1/issues/15-operation-stopping-partway.md) on [Watching a Job live](../../taiichi-v1/issues/18-watching-a-job-live.md)).
-- **Whether a future Stage executor shares the feed** to learn when a Stage Input is ready, as asked in [The executor seam](../../taiichi-v1/issues/19-executor-seam.md).
+- **Whether a future Stage executor shares the feed** to learn when a Stage Input is ready, as asked in [The executor seam](../../taiichi-v1/issues/19-executor-seam.md) and held there for the post-v1 AI session.
 - **What a client sees after reconnecting:** missed changes, or only the Job's current state.

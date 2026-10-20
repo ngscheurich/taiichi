@@ -77,7 +77,7 @@ Settled with the user. Glossary: **Attempt** now says why the word fits: its Sta
 **Attempts and gates**
 - "Attempt" was questioned, since a failing Verdict isn't Evaluate failing, and a rename to Visit was weighed and dropped. The word fits once each Attempt fails in one way only: its own Stage Output is sent back. In v1 that happens to Build, through a failing Verdict or a Refused Shipment.
 - Plan stays numbered like every Stage in the data and the API. While a Stage has only one Attempt, the CLI prints it plainly ("Plan", not "Plan 1").
-- **Gates are post-v1:** a human check of a Stage Output before the Job moves on, able to send it back with notes, so the Stage repeats. They come with a second operator, such as an AI agent. Tracked as [Gates](../../taiichi-post-v1/issues/04-gates.md). In v1 a Job never returns to Plan; a wrong Blueprint means Abandon and Pickup again.
+- **Gates are post-v1:** a human check of a Stage Output before the Job moves on, able to send it back with notes, so the Stage repeats. They come once an AI agent drives some Stages. Tracked as [Gates](../../taiichi-post-v1/issues/04-gates.md). In v1 a Job never returns to Plan; a wrong Blueprint means Abandon and Pickup again.
 
 **Changes to earlier decisions**
 - [Server internals](12-server-internals.md): the `shipments` and `outbox` tables, the marker's new home, and the startup step.

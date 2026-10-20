@@ -2,7 +2,7 @@
 
 Status: needs-triage
 
-Once a second operator drives Stages (for example, an AI agent), the primary operator may want to check each Stage Output before the Job moves on, and send it back with notes. A sketch:
+Once an AI agent drives some Stages, the Operator may want to check each Stage Output before the Job moves on, and send it back with notes. A sketch:
 
 1. A Ticket is picked up.
 2. Plan writes a Blueprint.

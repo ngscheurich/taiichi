@@ -114,3 +114,5 @@ No ADR: the choices are reversible and documented here.
 **From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
 - A new method, `ack`, takes `{job}`. It records the last check's state as seen and never calls Forgejo.
 - The Job object gains `ticket: {url, state, differs_from_snapshot, edited_since_seen, new_comments, checked_at, checks_failing_since}`, where `state` is `open`, `closed`, or `deleted`.
+
+**From [The executor seam](19-executor-seam.md):** `input` on a Done or Abandoned Job is `409 job_ended`, since such a Job has no current Attempt. `input`'s reply gains no `awaiting` field in v1; that waits for the post-v1 AI session.
