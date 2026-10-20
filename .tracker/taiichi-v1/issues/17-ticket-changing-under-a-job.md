@@ -85,3 +85,8 @@ Ticket #42 · closed · checked 12:04
 - [`taiichi init` and configuration](09-init-and-configuration.md): the exclusive-scope warning.
 - [CLI commands](06-cli-commands.md): the `ack` verb and the editor's Snapshot note.
 - [HTTP API shape](10-http-api-shape.md): the `ack` method and the Job object's `ticket` field.
+
+## Comments
+
+**From [Oban or the hand-rolled outbox](21-oban-or-hand-rolled-outbox.md):**
+- The checker keeps driving its own checks with a timer. Oban cron and self-rescheduling Oban jobs were rejected.

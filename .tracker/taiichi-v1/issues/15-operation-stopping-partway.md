@@ -93,3 +93,6 @@ Settled with the user. Glossary: **Attempt** now says why the word fits: its Sta
 **From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
 - When a Tracker row gets a 404, the sender reads the repo. If the repo answers, the issue was deleted and the row ends `skipped`. If not, the row keeps failing as usual.
 - [Oban or the hand-rolled outbox](21-oban-or-hand-rolled-outbox.md) reopens whether the outbox is hand-rolled.
+
+**From [Oban or the hand-rolled outbox](21-oban-or-hand-rolled-outbox.md):**
+- The outbox stays hand-rolled, with every rule above unchanged. Oban and Oban Pro were weighed and rejected.

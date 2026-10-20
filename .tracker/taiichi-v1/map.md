@@ -36,6 +36,7 @@ A v1 spec for Taiichi, ready to hand off and slice into implementation issues. T
 - [A Ticket changing under a running Job](issues/17-ticket-changing-under-a-job.md): a closed, deleted or edited Ticket and new comments are flagged, never acted on; `taiichi ack` marks what's new as seen; each label write sets only Taiichi's labels; a checker per Job reads its Ticket and Shipment directly, replacing the `since` pollers; a new `tickets` table.
 - [Watching a Job live](issues/18-watching-a-job-live.md): not in v1; only the Job's checker changes a Job without a command, and `show` and `jobs` print it; v1 reserves no events or streaming endpoint, and a later one attaches at the write-back call site; a Go client can use server-sent events or a WebSocket over the Unix socket.
 - [The executor seam](issues/19-executor-seam.md): v1 builds nothing for a future executor, which would use `show`, `input`, the worktree and `submit` as they stand; `input` on an ended Job is `409 job_ended`; every other AI decision is held for a post-v1 session; **Operator** names the human in the loop.
+- [Oban or the hand-rolled outbox](issues/21-oban-or-hand-rolled-outbox.md): kept the hand-rolled outbox and the checker's timer; open-source Oban covered only three of the outbox's eight rules and would slow replies by up to a second, Pro's chains aren't known to run on SQLite and its licence is proprietary, and cron can't express every `poll_interval`; nothing settled changes.
 
 ## Not yet specified
 
