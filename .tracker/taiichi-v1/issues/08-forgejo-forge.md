@@ -70,3 +70,7 @@ Settled with the user. Glossary: **Closed** added for a Shipment withdrawn witho
 - Closed no longer keeps the Job at Ship: the Job moves on, flagged, and Ship refuses with `409 shipment_closed` until a human reopens the pull request. If the branch was deleted, Ship restores it first.
 - Ship's lease: on the last shipped commit when Forgejo still has it; on Forgejo's head when the worktree contains it; on no branch when it's missing; otherwise `409 branch_moved`.
 - Later Ships read the pull request by the Shipment's number before anything else. The first Ship adopts only an open pull request opened by Taiichi's account, since `GET /pulls/{base}/{head}` returns any state in no fixed order.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- Polling no longer uses the repo-wide `since` query. Each active Job's checker reads its Shipment directly every `poll_interval`: the pull request, its reviews, and its comments after the cursor. There is no per-location poller.
+- `taiichi ack` moves a seen point for the new-comment count; the feedback cursor is untouched.

@@ -89,3 +89,7 @@ Settled with the user. Glossary: **Attempt** now says why the word fits: its Sta
 **From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
 - Abandon reads the pull request whenever the Job has a Shipment, at any Stage, not only at Ship.
 - Submit at Ship first reads the pull request by number: merged ends the Job as Done with `409 shipment_accepted`; closed is `409 shipment_closed`, after restoring a deleted branch.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- When a Tracker row gets a 404, the sender reads the repo. If the repo answers, the issue was deleted and the row ends `skipped`. If not, the row keeps failing as usual.
+- [Oban or the hand-rolled outbox](21-oban-or-hand-rolled-outbox.md) reopens whether the outbox is hand-rolled.

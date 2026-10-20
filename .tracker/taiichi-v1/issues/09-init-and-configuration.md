@@ -99,3 +99,5 @@ There's no separate re-init command; running `init` again is safe. If `taiichi.t
 ## Comments
 
 **From [Server internals](12-server-internals.md):** a Repo is no longer one folder; the server's data is in SQLite. Removing a Repo by hand is: abandon its active Jobs, stop the server, `DELETE FROM repos WHERE id = …` (cascades to its Jobs and their history), delete those Jobs' worktrees under `$XDG_DATA_HOME/taiichi/worktrees/`, run `git worktree prune` in the clone, start the server. Job numbers are server-wide and never reused, so they no longer restart after a removal; Pickup's branch-name check stays as a guard.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):** `init` warns and asks when a configured exclusive label shares its scope with exclusive labels outside the config, naming the labels Forgejo would strip at every move. `--yes` skips the prompt. It never refuses.

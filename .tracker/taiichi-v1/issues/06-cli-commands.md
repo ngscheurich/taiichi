@@ -58,3 +58,8 @@ No glossary change: no domain terms moved.
 **From [Server internals](12-server-internals.md):** Jobs are numbered across the whole server, not per repo, and numbers are never reused. A Job command given a number (`taiichi show 12`) works from any folder; with the number left out, the CLI still finds the Job from the current worktree.
 
 **From [An operation stopping partway](15-operation-stopping-partway.md):** a Stage with only one Attempt prints plainly ("Plan", not "Plan 1"). When `submit` fails and the body came from the editor or stdin, the CLI saves it to `$XDG_STATE_HOME/taiichi/submit/<job>-<stage>-<attempt>.md` and prints the retry command. `abandon` refuses a worktree with uncommitted changes unless `--discard`.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- A new verb, `taiichi ack [job]`, with the Job implied inside its worktree, marks what's new on the Job as seen: the Ticket's edits and comments, and the Shipment's new-comment count.
+- When a Stage Input includes the Ticket Snapshot and the Ticket now differs from it, the editor shows a note above the scissors line, such as "Ticket #42 has changed since this Snapshot: body. See <url>." The stored Stage Input doesn't change.
+- `jobs` marks a Job for a closed or deleted Ticket, a Ticket edited since seen, new comments on the Ticket or Shipment, and failing checks. `show` prints these plus "differs from Snapshot".

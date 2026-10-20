@@ -73,3 +73,7 @@ Forgejo facts behind these rules were read from the Forgejo source at v13.0.5, a
 ## Comments
 
 **From [An operation stopping partway](15-operation-stopping-partway.md):** Refused now counts any request-changes review newer than the Ship marker, whatever commit it names, so a head someone else moved doesn't hide a refusal. What the Job does when the head moves is still for this ticket. Abandon at Ship already checks for a merge first; merges while the Job is away from Ship are still here.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- The poller is replaced by one checker per active Job that reads the Shipment directly each tick, so the `since` query and its start and stop rules are gone.
+- `taiichi ack` moves a seen point for the new-comment count without touching the feedback cursor.

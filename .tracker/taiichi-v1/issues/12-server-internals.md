@@ -100,3 +100,8 @@ Taiichi.API         Plug router: JSON and error codes; calls only Repos and Jobs
 **From [A Shipment changing under a Job](16-shipment-changing-under-a-job.md):**
 - `shipments` gains `branch_head` and a count of new comments since the last Feedback. `jobs` gains `base_commit`, read before Pickup's save; the branch is created at it.
 - A poller starts when the first Job at its Forge location has a Shipment, and stops when no active Job there has one, instead of following Jobs waiting at Ship.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- One checker process per active Job, beside its Job process under the same supervisor, replaces the per-location pollers. Every `poll_interval` it reads the Ticket and, if there is one, the Shipment, and hands the results to the Job's process, which is still the only writer. It starts with the Job's process at startup and checks at once.
+- A new **`tickets`** table, one row per Job inside the Job aggregate: `state`, the current title, body and other labels, `checked_at`, `checks_failing_since`, the seen point (`seen_at` plus title, body and labels at the last `ack`), and `new_comments`.
+- `shipments` gains a seen comment id, set by `ack`.

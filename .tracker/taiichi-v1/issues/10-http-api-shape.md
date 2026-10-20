@@ -110,3 +110,7 @@ No ADR: the choices are reversible and documented here.
 - New errors: `409 branch_moved` and `409 shipment_closed` at Ship. `head_moved` and `shipment_accepted` can now come from Ship's `submit` too.
 - `submit` takes `unjudged` to ship a head other than the commit Evaluate judged.
 - The Job's `shipment` carries `last_report` (now also away from Ship), whether the worktree lacks the branch head, and the count of new comments since the last Feedback.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- A new method, `ack`, takes `{job}`. It records the last check's state as seen and never calls Forgejo.
+- The Job object gains `ticket: {url, state, differs_from_snapshot, edited_since_seen, new_comments, checked_at, checks_failing_since}`, where `state` is `open`, `closed`, or `deleted`.

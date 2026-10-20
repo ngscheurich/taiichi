@@ -45,3 +45,9 @@ Settled with the user. No glossary change: ready labels and position labels are 
 **From [`taiichi init` and configuration](09-init-and-configuration.md):** two rules here changed.
 - The `abandoned` position label is dropped, so the position map covers Plan, Build, Evaluate, Ship, and Done. Abandon removes the current position label and restores the ready labels, with no trace label left on the issue. The Abandoned comment and the Job history still record it.
 - The default ready label is `taiichi/ready`, created by `taiichi init` as an exclusive label in the `taiichi` scope next to the position labels. "Per-project" settings are now per Repo.
+
+**From [A Ticket changing under a running Job](17-ticket-changing-under-a-job.md):**
+- Each label write sets Taiichi's labels exactly: it removes every ready label and every other position label, then adds the new one. Abandon removes every position label and adds back the Snapshot's ready labels. Labels are never commands.
+- Taiichi only adds (`POST`) or removes (`DELETE`) the labels it names, one at a time, and never replaces the set with `PUT`. Other labels are never touched.
+- A Tracker outbox row that gets a 404 reads the repo: if the repo answers, the issue was deleted and the row ends `skipped`.
+- These are rules of the Forgejo adapter. The Tracker port names Positions, not labels, and gains `check`.
