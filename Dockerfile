@@ -11,7 +11,7 @@ ENV LANG=C.UTF-8 \
 RUN apk add --no-cache \
       bash ca-certificates curl git inotify-tools jq tzdata tar perl \
       ncurses-libs openssl zlib build-base autoconf automake libtool \
-      m4 linux-headers ncurses-dev openssl-dev zlib-dev
+      m4 linux-headers ncurses-dev openssl-dev zlib-dev python3
 
 # Install Claude Code
 RUN set -eux; \
