@@ -6,3 +6,6 @@
 
 # Personal teaching workspace (the /teach skill).
 /.teach/
+
+# Local mise config
+/mise.local.toml
