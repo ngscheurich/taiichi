@@ -1,21 +1,37 @@
 # Taiichi
 
-**TODO: Add description**
+A software factory that pulls Tickets from a Tracker and tracks each one as it moves through a fixed Pipeline of Stages. [GLOSSARY.md](GLOSSARY.md) defines these terms.
 
-## Installation
+Taiichi has two programs, side by side in this repository:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `taiichi` to your list of dependencies in `mix.exs`:
+- **`server/`**: the server, a Mix app in Elixir. It holds every rule and is the only program that writes Job data.
+- **`cli/`**: the CLI, `taiichi`, a Go module. It sends requests to the server and prints the answers.
 
-```elixir
-def deps do
-  [
-    {:taiichi, "~> 0.1.0"}
-  ]
-end
+## Setup
+
+[mise](https://mise.jdx.dev) installs the Elixir, Erlang and Go versions pinned in `mise.toml`:
+
+```sh
+mise install
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/taiichi>.
+## The server
 
+Run these from `server/`:
+
+| What | Command |
+|---|---|
+| Fetch dependencies | `mix deps.get` |
+| Build | `mix compile --warnings-as-errors` |
+| Test | `mix test` |
+
+## The CLI
+
+Run these from `cli/`:
+
+| What | Command |
+|---|---|
+| Build | `go build -o bin/taiichi ./cmd/taiichi` |
+| Test | `go test ./...` |
+
+The build writes the binary to `cli/bin/taiichi`.
