@@ -14,7 +14,7 @@ The CLI is one Go module in `cli/`, beside the server's Mix app in `server/`. Ke
 
 ### The module path
 
-A module path names the module and prefixes every import path in it. The Go team's advice is to use the repository's location if the module might ever be fetched by others, and otherwise a name you control, avoiding generic words ([Naming a module](https://go.dev/doc/modules/managing-dependencies#naming_module)). A module can live in a subdirectory of its repository, in which case the path gains that directory. Taiichi's repository is `github.com/ngscheurich/taiichi`, so the CLI's module path is **provisionally** `github.com/ngscheurich/taiichi/cli`.
+A module path names the module and prefixes every import path in it. The Go team's advice is to use the repository's location if the module might ever be fetched by others, and otherwise a name you control, avoiding generic words ([Naming a module](https://go.dev/doc/modules/managing-dependencies#naming_module)). A module can live in a subdirectory of its repository, in which case the path gains that directory. Taiichi's repository is `github.com/ngscheurich/taiichi`, so the CLI's module path is `github.com/ngscheurich/taiichi/cli`.
 
 ```
 // cli/go.mod
@@ -31,7 +31,7 @@ The Go team's layout page recommends keeping a server's or tool's packages in `i
 
 There's a second reason for `cmd/taiichi/`: `go build` names the binary after the last element of the main package's import path ([`go help build`](https://pkg.go.dev/cmd/go#hdr-Compile_packages_and_dependencies)). A `main` package at the module root would build a binary called `cli`.
 
-**Provisional** package layout:
+The package layout:
 
 ```
 cli/
@@ -39,7 +39,7 @@ cli/
   go.sum                  committed
   cmd/
     taiichi/
-      main.go             wires things together and calls command.Execute; nothing else
+      main.go             wires things together and runs the command tree through Fang; nothing else
   internal/
     command/              the Cobra command tree: one file per command
     api/                  the server's client, its request and result types, the socket path
@@ -1002,7 +1002,7 @@ These are the house rules for every comment in the tree, not only Go's:
 
 These are the local defaults. Follow them unless a comment at the point of divergence says why.
 
-1. **One module in `cli/`**, binary built from `cmd/taiichi/`, everything else in `internal/`. No `pkg/`.
+1. **One module in `cli/`**, with the path `github.com/ngscheurich/taiichi/cli`. The binary is built from `cmd/taiichi/`; everything else is in `internal/`, split into `command`, `api`, `git`, `editor` and `render`. No `pkg/`.
 2. **`gofmt` and `goimports` on save; `go vet`, `golangci-lint run` and `go test -race ./...` before every commit.** `golangci-lint` pinned through `mise`; `govulncheck` as a module tool.
 3. **Run `go fix ./...` after every toolchain upgrade**, and review the diff.
 4. **Names follow Go and the glossary**: MixedCaps, initialisms in one case, no stutter, no `Get`, and domain nouns as `GLOSSARY.md` spells them, never a word from an _Avoid_ list.
@@ -1031,18 +1031,16 @@ These are the local defaults. Follow them unless a comment at the point of diver
 
 Points where the community is split or the project hasn't decided. Decide each, fold the answer into section 18, and delete it here.
 
-1. **Package layout inside `cli/`.** Section 1's split (`command`, `api`, `git`, `editor`, `render`) is a proposal. The main alternative is fewer packages: everything but `api` in one `internal/cli`. Fewer packages share unexported helpers freely; more make each dependency visible in imports.
-2. **Module path.** `github.com/ngscheurich/taiichi/cli` follows the repository's `origin`. If the repository moves, every import path changes with it, so settle it before the code grows.
-3. **`encoding/json/v2` or v1.** v2 is in the standard library from Go 1.27 and its defaults suit a strict API, but it's new, and v1 is what most examples and libraries still show. Choose one for the whole module.
-4. **Hand-written or generated API types.** The API has no machine-readable schema, so types are written by hand from the spec today. If the server gains one (OpenAPI, or JSON Schema exported from its parameter declarations), generating Go types would keep both sides in step.
-5. **`testify` or the standard library.** `testify` (`assert.Equal(t, want, got)`) is the most used third-party test library and reads shorter. Google's guide rejects assertion libraries, and `cmp.Diff` gives better failure output. This guide follows Google for now.
-6. **In-process command tests, `testscript`, or both.** In-process Cobra tests are fast and need nothing extra; `testscript` tests the real binary, its exit codes and its streams, at the cost of a dependency and a second way to write tests.
-7. **A `golangci-lint` profile.** Section 2's configuration is a starting point. Linters worth weighing: `gosec`, `gocritic`, `exhaustive` (every `switch` on a `Position` covers every Position), `wrapcheck`.
-8. **Fang's background query.** The spec says to use a short timeout or set the colour scheme explicitly; nobody has yet confirmed which Fang option avoids the query without losing light and dark themes.
-9. **Client-side error codes.** The prototype invented `no_terminal` and `editor_failed` for failures that never reach the server, and printed them like server codes. Decide whether the CLI has codes of its own, and if so where they're listed.
-10. **The terminal check's strictness.** The check refuses when stdin is redirected even inside a terminal (`echo | taiichi abandon`), which Huh itself would allow by opening `/dev/tty`. That's what the spec asks for; confirm it's wanted.
-11. **Logging.** Whether a `--debug` trace (requests, timings) is worth having, and if so whether it's a flag or an environment variable.
-12. **Version stamping.** Whether `--version` reads Go's build information, or the build passes a version with `-ldflags "-X ..."`, and whether it also prints the server's version.
+1. **`encoding/json/v2` or v1.** v2 is in the standard library from Go 1.27 and its defaults suit a strict API, but it's new, and v1 is what most examples and libraries still show. Choose one for the whole module.
+2. **Hand-written or generated API types.** The API has no machine-readable schema, so types are written by hand from the spec today. If the server gains one (OpenAPI, or JSON Schema exported from its parameter declarations), generating Go types would keep both sides in step.
+3. **`testify` or the standard library.** `testify` (`assert.Equal(t, want, got)`) is the most used third-party test library and reads shorter. Google's guide rejects assertion libraries, and `cmp.Diff` gives better failure output. This guide follows Google for now.
+4. **In-process command tests, `testscript`, or both.** In-process Cobra tests are fast and need nothing extra; `testscript` tests the real binary, its exit codes and its streams, at the cost of a dependency and a second way to write tests.
+5. **A `golangci-lint` profile.** Section 2's configuration is a starting point. Linters worth weighing: `gosec`, `gocritic`, `exhaustive` (every `switch` on a `Position` covers every Position), `wrapcheck`.
+6. **Fang's background query.** The spec says to use a short timeout or set the colour scheme explicitly; nobody has yet confirmed which Fang option avoids the query without losing light and dark themes.
+7. **Client-side error codes.** The prototype invented `no_terminal` and `editor_failed` for failures that never reach the server, and printed them like server codes. Decide whether the CLI has codes of its own, and if so where they're listed.
+8. **The terminal check's strictness.** The check refuses when stdin is redirected even inside a terminal (`echo | taiichi abandon`), which Huh itself would allow by opening `/dev/tty`. That's what the spec asks for; confirm it's wanted.
+9. **Logging.** Whether a `--debug` trace (requests, timings) is worth having, and if so whether it's a flag or an environment variable.
+10. **Version stamping.** Whether `--version` reads Go's build information, or the build passes a version with `-ldflags "-X ..."`, and whether it also prints the server's version.
 
 ---
 
